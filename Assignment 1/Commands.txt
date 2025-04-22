@@ -1,0 +1,18 @@
+#!/bin/bash
+: '            EE1103 Assignment - 1 : Generating data file and analyzing using linux terminal
+            
+Developer : EE24B017
+Date : 19th August 2024
+Purpose : To generate a data file using ping command and analyze the data given using awk
+command and hence calculate the mean and standard deviation of the time stamps in the file.
+Input(s) : None
+Outputs(s): None
+Note: An active internet connection is required to use the program.
+
+Commands used'
+ping -c 5100 -i 0.07 www.google.com > pingout.txt
+head -n -4 pingout.txt > temp.txt && mv temp.txt pingout.txt
+tail -n +2 pingout.txt > temp.txt && mv temp.txt pingout.txt
+awk '{print $8}' pingout.txt | sed 's/time=//' > pingextract.txt
+awk '{sum+=$1;sum1+=$1*$1}END{print "EE24B017",NR ,sum/NR ,sqrt((sum1/NR)-(sum/NR)^2)}' pingextract.txt
+rm -f pingout.txt pingextract.txt
